@@ -50,10 +50,12 @@ export const products: Product[] = [
     stack: "Next.js / Supabase / OpenAI",
     status: "In active development",
     previewLabel: "WIIT / product preview",
-    image: "/products/wiit.png",
+    image: "/products/wiit-debate-1.png",
     imageAlt:
-      "Placeholder preview of WIIT, a timed two-sided debate product. Replace with a live screenshot when the public app is available.",
-    placeholder: true,
+      "WIIT live debate: Should AI-written code need a human sign-off before it ships? Both sides, timer, territory board, and arguments.",
+    secondaryImage: "/products/wiit-debate-2.png",
+    secondaryImageAlt:
+      "WIIT live debate: Is a four-day work week better for software teams? Both sides, timer, and territory board.",
   },
   {
     name: "PingStay",

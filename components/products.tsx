@@ -4,7 +4,7 @@ import { products, type Product } from "@/lib/site";
 function Preview({ product }: { product: Product }) {
   return (
     <div className="relative h-[205px] overflow-hidden rounded-lg border border-preview-line bg-[linear-gradient(145deg,#1e2637,#16191f)] min-[700px]:h-[208px]">
-      <span className="absolute left-3.5 top-2 z-10 text-[9px] uppercase tracking-[0.1em] text-[#8f9cb4]">
+      <span className="absolute left-2.5 top-2 z-10 rounded bg-black/55 px-1.5 py-0.5 text-[9px] uppercase tracking-[0.1em] text-[#c5d0e4]">
         {product.previewLabel}
       </span>
       <Image

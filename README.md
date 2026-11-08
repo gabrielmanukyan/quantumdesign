@@ -56,7 +56,8 @@ Because this is a static export, you do **not** need `@cloudflare/next-on-pages`
 | File | Purpose |
 | --- | --- |
 | `public/gabriel-manukyan-resume.pdf` | Resume download (hero CTA) |
-| `public/products/wiit.png` | WIIT card. Currently a named placeholder — [askwiit.com](https://askwiit.com) is behind a private preview password. |
+| `public/products/wiit-debate-1.png` | WIIT card, main image — live debate (AI code sign-off). |
+| `public/products/wiit-debate-2.png` | WIIT card, secondary image — live debate (four-day week). |
 | `public/products/pingstay.png` | PingStay card placeholder. Replace with a real screenshot when you have one. |
 | `public/products/afterbounce-gameplay.png` | Afterbounce in-game screenshot (main image). |
 | `public/products/afterbounce-title.png` | Afterbounce title / main menu (secondary image). Keep nearest-neighbor / `image-rendering: pixelated` if you rescale. |
