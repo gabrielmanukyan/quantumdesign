@@ -1,5 +1,49 @@
 import Image from "next/image";
-import { products, type Product } from "@/lib/site";
+import { products, type Product, type ProductInset } from "@/lib/site";
+
+function Inset({ inset }: { inset: ProductInset }) {
+  if (inset.kind === "phone") {
+    return (
+      <div className="h-[150px] w-[70px] rounded-[13px] border border-[#4a5568] bg-[#0a0a0c] p-[3px] shadow-[0_12px_22px_#000a]">
+        <div className="relative h-full w-full overflow-hidden rounded-[10px]">
+          <Image
+            src={inset.src}
+            alt={inset.alt}
+            width={780}
+            height={1688}
+            className="h-full w-full object-cover object-top"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (inset.kind === "ticket") {
+    return (
+      <div className="mb-0.5 h-[118px] w-[68px] overflow-hidden rounded-[2px] border border-[#3a3228] bg-[#14110e] shadow-[0_12px_20px_#000a]">
+        <Image
+          src={inset.src}
+          alt={inset.alt}
+          width={520}
+          height={820}
+          className="h-full w-full object-contain"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-[44%] overflow-hidden rounded-md border border-[#3b455a] bg-black shadow-[0_12px_24px_#0008]">
+      <Image
+        src={inset.src}
+        alt={inset.alt}
+        width={1600}
+        height={1000}
+        className="h-auto w-full"
+      />
+    </div>
+  );
+}
 
 function Preview({ product }: { product: Product }) {
   return (
@@ -17,8 +61,14 @@ function Preview({ product }: { product: Product }) {
       {product.placeholder ? (
         <span className="sr-only">Screenshot placeholder — replace the file in public/products to update.</span>
       ) : null}
-      {product.secondaryImage ? (
-        <div className="absolute bottom-3 right-3 z-10 w-[44%] overflow-hidden rounded-md border border-[#3b455a] bg-black shadow-[0_12px_24px_#0008]">
+      {product.insets && product.insets.length > 0 ? (
+        <div className="absolute right-2.5 bottom-2.5 z-10 flex items-end gap-1.5">
+          {product.insets.map((inset) => (
+            <Inset key={inset.src} inset={inset} />
+          ))}
+        </div>
+      ) : product.secondaryImage ? (
+        <div className="absolute right-3 bottom-3 z-10 w-[44%] overflow-hidden rounded-md border border-[#3b455a] bg-black shadow-[0_12px_24px_#0008]">
           <Image
             src={product.secondaryImage}
             alt={product.secondaryImageAlt ?? ""}

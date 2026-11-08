@@ -24,6 +24,12 @@ export const nav = [
   { href: "#contact", label: "Contact", externalStyle: true },
 ] as const;
 
+export type ProductInset = {
+  src: string;
+  alt: string;
+  kind: "screenshot" | "phone" | "ticket";
+};
+
 export type Product = {
   name: string;
   href?: string;
@@ -36,6 +42,7 @@ export type Product = {
   imageAlt: string;
   secondaryImage?: string;
   secondaryImageAlt?: string;
+  insets?: ProductInset[];
   pixelated?: boolean;
   placeholder?: boolean;
 };
@@ -65,10 +72,21 @@ export const products: Product[] = [
     stack: "Turborepo / Next.js / Supabase / Gemini",
     status: "In active development",
     previewLabel: "PingStay / product preview",
-    image: "/products/pingstay.png",
+    image: "/products/pingstay-dashboard.png",
     imageAlt:
-      "Placeholder preview of PingStay, a QR in-room hotel concierge. Swap this file for a real screenshot when ready.",
-    placeholder: true,
+      "PingStay staff operations dashboard (demo data): kitchen orders board with rooms, statuses, and SLA analytics.",
+    insets: [
+      {
+        src: "/products/pingstay-guest.png",
+        alt: "PingStay guest mobile app (demo data): in-room dining for Suite 305 with quick requests and a multilingual header.",
+        kind: "phone",
+      },
+      {
+        src: "/products/pingstay-ticket.png",
+        alt: "PingStay printed kitchen production ticket for Room 305 (demo data, no real guest data).",
+        kind: "ticket",
+      },
+    ],
   },
   {
     name: "Afterbounce",
