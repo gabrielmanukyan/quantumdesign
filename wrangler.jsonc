@@ -1,0 +1,28 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "quantumdesign-site",
+  "compatibility_date": "2026-11-08",
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page"
+  },
+  // No `main` — this Worker is static assets only. Next.js `output: "export"`
+  // writes HTML/CSS/JS to ./out; Wrangler uploads that directory.
+  //
+  // D1: Wrangler treats this file as the source of truth for bindings.
+  // Omitting `d1_databases` would DELETE the existing `DB` binding on the
+  // next `wrangler deploy` (`keep_vars` does not preserve D1). Auto-provision
+  // (binding without database_id) would create a *new* database. Declare the
+  // existing binding instead. Fill in name + UUID from the dashboard
+  // (Workers → quantumdesign-site → Settings → Bindings) or
+  // `npx wrangler d1 list` BEFORE the first Git-connected deploy.
+  // This site never queries D1; the binding is declared only so deploy does
+  // not drop it. Do not run D1 migrations from this repo.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "TODO_EXISTING_D1_DATABASE_NAME",
+      "database_id": "TODO_EXISTING_D1_DATABASE_ID"
+    }
+  ]
+}

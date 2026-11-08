@@ -8,9 +8,10 @@ Live domain: [quantumdesign.dev](https://quantumdesign.dev)
 
 - Next.js App Router + TypeScript
 - Tailwind CSS v4
-- Static export (`output: "export"`) — deployable to **Vercel** or **Cloudflare Pages**
+- Static export (`output: "export"`) — `next build` writes HTML/CSS/JS to `out/`
+- Deployed as the existing Cloudflare Worker **`quantumdesign-site`** (serves [quantumdesign.dev](https://quantumdesign.dev))
 
-No server runtime is required. `next build` writes a static site to `out/`.
+No server runtime is required.
 
 ## Local development
 
@@ -36,20 +37,46 @@ npx serve out
 
 ## Deploy
 
-### Vercel
+Production is the existing Worker **`quantumdesign-site`**, via **Cloudflare Workers Builds** (Git integration) — not Pages, and not a new Worker.
 
-1. Import this repository in Vercel.
-2. Framework preset: Next.js. Build command `npm run build` is enough — Vercel will publish the static export.
-3. Set the production domain to `quantumdesign.dev`.
+### Before the first deploy: keep the existing D1 binding
 
-### Cloudflare Pages
+Wrangler treats `wrangler.jsonc` as the source of truth for bindings. **Omitting** `d1_databases` would remove the current `DB` binding on deploy. **Omitting `database_id`** would auto-provision a *new* D1 database. This repo therefore declares `DB` and leaves name/id as TODOs.
 
-1. Create a Pages project from this repository.
-2. Build command: `npm run build`
-3. Output directory: `out`
-4. Node version: 20 or later.
+1. In the Cloudflare dashboard: **Workers & Pages → `quantumdesign-site` → Settings → Bindings**.
+2. Copy the existing D1 **database name** and **database ID**.
+   Or run `npx wrangler d1 list` while logged in.
+3. Replace `TODO_EXISTING_D1_DATABASE_NAME` and `TODO_EXISTING_D1_DATABASE_ID` in `wrangler.jsonc`.
+4. Commit that change **before** connecting Git / running a production deploy.
 
-Because this is a static export, you do **not** need `@cloudflare/next-on-pages`.
+Do not run D1 migrations from this repo. The site does not query the database; the binding is only there so deploy does not drop it. Routes and the `quantumdesign.dev` custom domain stay in the dashboard (`wrangler.jsonc` does not set `routes`).
+
+### Cloudflare Workers Builds (Settings → Build → Connect repo)
+
+Connect this repository to the **existing** Worker named `quantumdesign-site` (the Worker name in `wrangler.jsonc` must match).
+
+| Setting | Value |
+| --- | --- |
+| Git repository | `gabrielmanukyan/quantumdesign` |
+| Git branch | `main` (after this PR is merged) |
+| Root directory | *(leave empty — repo root)* |
+| Build command | `npm run build` |
+| Deploy command | `npx wrangler deploy` |
+| Preview command | `npx wrangler preview` *(default)* |
+
+Optional build variable: `NODE_VERSION` = `22`.
+
+Workers Builds installs npm dependencies, runs the build command (writes `out/`), then runs the deploy command. `wrangler.jsonc` points `assets.directory` at `./out` with `not_found_handling: "404-page"` (serves `out/404.html`). There is no Worker script (`main` is unset).
+
+Local deploy (after filling in the D1 TODOs):
+
+```bash
+npm run deploy   # next build && wrangler deploy
+```
+
+### Vercel (optional)
+
+The static export also works on Vercel: import the repo, Next.js preset, `npm run build`. Production for this project is Cloudflare.
 
 ## Content you may want to swap
 
