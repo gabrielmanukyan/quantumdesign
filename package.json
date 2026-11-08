@@ -1,0 +1,32 @@
+{
+  "name": "quantumdesign",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal site for Gabriel Manukyan — senior full-stack engineer.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "next": "16.4.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/turbopack": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.5",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "wrangler": "^4.158.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

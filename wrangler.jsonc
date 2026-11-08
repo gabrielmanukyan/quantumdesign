@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "quantumdesign-site",
+  "compatibility_date": "2026-11-08",
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page"
+  },
+  // No `main` — this Worker is static assets only. Next.js `output: "export"`
+  // writes HTML/CSS/JS to ./out; Wrangler uploads that directory.
+  //
+  // D1: Wrangler treats this file as the source of truth for bindings.
+  // Omitting `d1_databases` would DELETE the existing `DB` binding on
+  // `wrangler deploy`. This site never queries D1 and must not run migrations;
+  // the binding is declared only so deploy does not drop it.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "quantumdesign-contact",
+      "database_id": "eec71935-4764-49b0-a97f-a3e0609d930f"
+    }
+  ]
+}
