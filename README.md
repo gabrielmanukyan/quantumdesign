@@ -39,17 +39,11 @@ npx serve out
 
 Production is the existing Worker **`quantumdesign-site`**, via **Cloudflare Workers Builds** (Git integration) — not Pages, and not a new Worker.
 
-### Before the first deploy: keep the existing D1 binding
+### Existing D1 binding
 
-Wrangler treats `wrangler.jsonc` as the source of truth for bindings. **Omitting** `d1_databases` would remove the current `DB` binding on deploy. **Omitting `database_id`** would auto-provision a *new* D1 database. This repo therefore declares `DB` and leaves name/id as TODOs.
+`wrangler.jsonc` declares binding `DB` → database `quantumdesign-contact` (`eec71935-4764-49b0-a97f-a3e0609d930f`) so `wrangler deploy` does not drop it. Wrangler treats this file as the source of truth for bindings; omitting `d1_databases` would delete `DB`.
 
-1. In the Cloudflare dashboard: **Workers & Pages → `quantumdesign-site` → Settings → Bindings**.
-2. Copy the existing D1 **database name** and **database ID**.
-   Or run `npx wrangler d1 list` while logged in.
-3. Replace `TODO_EXISTING_D1_DATABASE_NAME` and `TODO_EXISTING_D1_DATABASE_ID` in `wrangler.jsonc`.
-4. Commit that change **before** connecting Git / running a production deploy.
-
-Do not run D1 migrations from this repo. The site does not query the database; the binding is only there so deploy does not drop it. Routes and the `quantumdesign.dev` custom domain stay in the dashboard (`wrangler.jsonc` does not set `routes`).
+Do not run D1 migrations from this repo. The site does not query the database. Routes and the `quantumdesign.dev` custom domain stay in the dashboard (`wrangler.jsonc` does not set `routes`).
 
 ### Cloudflare Workers Builds (Settings → Build → Connect repo)
 
@@ -68,7 +62,7 @@ Optional build variable: `NODE_VERSION` = `22`.
 
 Workers Builds installs npm dependencies, runs the build command (writes `out/`), then runs the deploy command. `wrangler.jsonc` points `assets.directory` at `./out` with `not_found_handling: "404-page"` (serves `out/404.html`). There is no Worker script (`main` is unset).
 
-Local deploy (after filling in the D1 TODOs):
+Local deploy:
 
 ```bash
 npm run deploy   # next build && wrangler deploy
